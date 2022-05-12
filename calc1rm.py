@@ -1,4 +1,4 @@
-class MaxCalc:
+class Calc1rm:
     def __init__(self):
         self.max_reps = {1: 1, 2: 0.97, 3: 0.94, 4: 0.92, 5: 0.89,
                          6: 0.86, 7: 0.83, 8: 0.81, 9: 0.78, 10: 0.75,
@@ -7,13 +7,13 @@ class MaxCalc:
 
         self.one_rm = 0
 
-    def calc_one_rm(self, reps, weight):
+    def calc_one_rm(self, weight, reps):
         max_percent = self.max_reps[reps]
         self.one_rm = int(weight / max_percent)
         return self.one_rm
 
 
-calc = MaxCalc()
-
-my_max = calc.calc_one_rm(5, 365)
-print(my_max)
+# calc = MaxCalc()
+#
+# my_max = calc.calc_one_rm(5, 365)
+# print(my_max)
