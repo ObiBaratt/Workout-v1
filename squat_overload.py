@@ -5,7 +5,7 @@
 # max_dict_from_calc1rm = calc.max_reps
 
 
-class SquatWorkout:
+class SquatOverload:
     def __init__(self, one_rm, max_dict):
         self.one_rm = one_rm
         self.max_dict = max_dict

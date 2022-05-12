@@ -1,21 +1,25 @@
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField
+from flask_sqlalchemy import SQLAlchemy
+from wtforms import IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from calc1rm import Calc1rm
-from squat_overload import SquatWorkout
+from squat_overload import SquatOverload
+import os
 
 
 class InputForm(FlaskForm):
     weight = IntegerField(label='Weight', validators=[DataRequired()])
     reps = IntegerField(label='Reps', default=1, validators=[DataRequired()])
+    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'), ('nothing', 'Nothing')])
     submit = SubmitField(label='Submit')
 
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "DSfajs ;j32j23pt"
+    app.secret_key = os.environ['flask_key']
+
     # Bootstrap(app)
 
     return app
@@ -24,8 +28,8 @@ def create_app():
 app = create_app()
 
 
-def squat_workouts(one_rm, max_dict):
-    squat = SquatWorkout(one_rm=one_rm, max_dict=max_dict)
+def squat_overload_func(one_rm, max_dict):
+    squat = SquatOverload(one_rm=one_rm, max_dict=max_dict)
     return squat.day1(), squat.day2(), squat.day3()
 
 
@@ -38,10 +42,10 @@ def home():
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
-        squat = SquatWorkout(one_rm=one_rm, max_dict=max_dict)
-        return f'<h1>Day 1:</h1>{squat.day1()}' \
-               f'<h1>Day 2:</h1>{squat.day2()}' \
-               f'<h1>Day 3:</h1>{squat.day3()}'
+        squat = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
+        return f'<h1>Day 1:</h1>{squat[0]}' \
+               f'<h1>Day 2:</h1>{squat[1]}' \
+               f'<h1>Day 3:</h1>{squat[2]}'
 
     else:
         return render_template('index.html', form=form)
