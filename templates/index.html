@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Squat Overlord</title>
+    <link rel="shortcut icon" href="/static/assets/WorkoutFav.ico">
 </head>
 <body>
+<h1>Squat Overlord Program Generator</h1>
+
+
+
+{% block content %}
+<h3>Enter your best set</h3>
+<form method="POST" action="/">
+    {{ form.csrf_token }}
+    {{ form.weight.label }} {{ form.weight(size=10) }}
+    {{ form.reps.label }} {{ form.reps(size=10) }}
+    {{ form.submit }}
+</form>
+{% endblock %}
 
 </body>
 </html>
