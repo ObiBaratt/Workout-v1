@@ -16,7 +16,7 @@ class SquatOverload:
 
         self.rep_4 = int(self.max_dict[4] * self.one_rm)
         self.rep_6 = int(self.max_dict[6] * self.one_rm)
-        self.rep_20 = int(self.max_dict[20] * self.one_rm)
+        self.rep_20 = int(self.max_dict[18] * self.one_rm)
 
     def day1(self):
         return f'{self.rep_hi}x3, 2, 1\n/ {self.rep_mid}x8\n/ {self.rep_low}x10'

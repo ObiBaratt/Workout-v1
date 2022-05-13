@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
+import sqlite3
 from wtforms import IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
@@ -12,7 +13,7 @@ import os
 class InputForm(FlaskForm):
     weight = IntegerField(label='Weight', validators=[DataRequired()])
     reps = IntegerField(label='Reps', default=1, validators=[DataRequired()])
-    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'), ('nothing', 'Nothing')])
+    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'), ('nothing', 'Nothing'), ('also', 'Also Nothing')])
     submit = SubmitField(label='Submit')
 
 
@@ -20,7 +21,7 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ['flask_key']
 
-    # Bootstrap(app)
+    Bootstrap(app)
 
     return app
 
@@ -49,6 +50,23 @@ def home():
 
     else:
         return render_template('index.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
+
+
+@app.route('/logout')
+def logout():
+    pass
+    # logout_user()
+    # return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

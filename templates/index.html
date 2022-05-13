@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Squat Overlord</title>
-    <link rel="shortcut icon" href="/static/assets/WorkoutFav.ico">
-</head>
-<body>
-<h1>Squat Overlord Program Generator</h1>
-
-
+{% extends "base.html" %}
 
 {% block content %}
+    <h1>Program Generator</h1>
     <div style="class:column">
-<h3>Enter your best set</h3>
-<form method="POST" action="/">
-    {{ form.csrf_token }}
-    {{ form.weight.label }} {{ form.weight(size=10) }}
-    {{ form.reps.label }} {{ form.reps(size=10) }}
-    {{ form.workout.label }} {{ form.workout }}
-    {{ form.submit }}
-</form>
+        <h3>Enter your best set</h3>
+            <form method="POST" action="/">
+                {{ form.csrf_token }}
+                {{ form.weight.label }} {{ form.weight(size=10) }}
+                {{ form.reps.label }} {{ form.reps(size=10) }}
+                {{ form.workout.label }} {{ form.workout }}
+                {{ form.submit }}
+            </form>
     </div>
 {% endblock %}
 
-</body>
-</html>
