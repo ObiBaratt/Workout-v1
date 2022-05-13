@@ -1,37 +1,52 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
-import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from wtforms import IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
+
 from calc1rm import Calc1rm
-from squat_overload import SquatOverload
+from squat_overload import squat_overload_func
+
 import os
+import sqlite3
 
 
 class InputForm(FlaskForm):
     weight = IntegerField(label='Weight', validators=[DataRequired()])
     reps = IntegerField(label='Reps', default=1, validators=[DataRequired()])
-    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'), ('nothing', 'Nothing'), ('also', 'Also Nothing')])
+    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'),
+                                                    ('nothing', 'Nothing'),
+                                                    ('also', 'Also Nothing')])
     submit = SubmitField(label='Submit')
 
 
-def create_app():
-    app = Flask(__name__)
-    app.secret_key = os.environ['flask_key']
-
-    Bootstrap(app)
-
-    return app
-
-
-app = create_app()
+# APP SETUP
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['flask_key']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # CHANGE TO NON SQLITE DB FOR DEPLOYMENT
+Bootstrap(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+db = SQLAlchemy(app)
 
 
-def squat_overload_func(one_rm, max_dict):
-    squat = SquatOverload(one_rm=one_rm, max_dict=max_dict)
-    return squat.day1(), squat.day2(), squat.day3()
+# CREATE USER CONFIG FOR DB
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(1000), nullable=False)
+
+
+db.create_all()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -43,28 +58,70 @@ def home():
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
-        if form.workout.data == 'overload':  #  REPLACE WITH A DICT FUNC OF WORKOUT PLANS
+        if form.workout.data == 'overload':  # REPLACE WITH A DICT FUNC OF WORKOUT PLANS
             overload = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
             return render_template('workout.html', days=overload)
-    else:
         return render_template('index.html', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('login.html')
+    return render_template('index.html', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'POST':
+        if User.query.filter_by(email=request.form.get('email')).first():
+            # User already exists
+            flash("You've already signed up with that email, log in instead!")
+            return redirect(url_for('login'))
+
+        new_user = User(
+            email=request.form.get('email'),
+            password=generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8),
+            name=request.form.get('name')
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        login_user(new_user)
+        flash('You were successfully logged in.')
+        return redirect(url_for('my_page'))
+
+    return render_template("register.html")
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            # Wrong user
+            flash("That email does not exist, please try again.")
+            return redirect(url_for('login'))
+            # Password incorrect
+        elif not check_password_hash(user.password, password):
+            flash('Password incorrect, please try again.')
+            return redirect(url_for('login'))
+        else:
+            # All good
+            login_user(user)
+            flash('You were successfully logged in.')
+            return redirect(url_for('my_page'))
+    return render_template('login.html')
+
+
+@app.route('/my_page')
+@login_required
+def my_page():
+    return render_template('my_page.html')
 
 
 @app.route('/logout')
 def logout():
-    pass
-    # logout_user()
-    # return redirect(url_for('home'))
+    logout_user()
+    flash('You were successfully logged out.')
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

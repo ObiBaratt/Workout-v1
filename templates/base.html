@@ -33,7 +33,7 @@
         <a class="dropdown-item" href="{{ url_for('home') }}">Home</a>
       </li>
 
-        {% if not logged_in %}
+        {% if not current_user.is_authenticated %}
       <li>
         <a class="dropdown-item" href="{{ url_for('login') }}">Login</a>
       </li>
@@ -41,9 +41,15 @@
         <a class="dropdown-item" href="{{ url_for('register') }}">Register</a>
       </li>
         {% endif %}
-            <li>
+
+              {% if current_user.is_authenticated %}
+                  <li>
+        <a class="dropdown-item"  href="{{ url_for('my_page') }}">My Page</a>
+      </li>
+         <li>
         <a class="dropdown-item"  href="{{ url_for('logout') }}">Log Out</a>
       </li>
+              {% endif %}
             </ul>
             </li>
             </ul>

@@ -5,6 +5,11 @@
 # max_dict_from_calc1rm = calc.max_reps
 
 
+def squat_overload_func(one_rm, max_dict):
+    squat = SquatOverload(one_rm=one_rm, max_dict=max_dict)
+    return squat.day1(), squat.day2(), squat.day3()
+
+
 class SquatOverload:
     def __init__(self, one_rm, max_dict):
         self.one_rm = one_rm
