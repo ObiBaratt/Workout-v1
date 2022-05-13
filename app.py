@@ -44,9 +44,7 @@ def home():
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
         squat = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
-        return f'<h1>Day 1:</h1>{squat[0]}' \
-               f'<h1>Day 2:</h1>{squat[1]}' \
-               f'<h1>Day 3:</h1>{squat[2]}'
+        return render_template('workout.html', day1=squat[0], day2=squat[1], day3=squat[2])
 
     else:
         return render_template('index.html', form=form)
