@@ -43,9 +43,9 @@ def home():
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
-        squat = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
-        return render_template('workout.html', day1=squat[0], day2=squat[1], day3=squat[2])
-
+        if form.workout.data == 'overload':  #  REPLACE WITH A DICT FUNC OF WORKOUT PLANS
+            overload = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
+            return render_template('workout.html', days=overload)
     else:
         return render_template('index.html', form=form)
 

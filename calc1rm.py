@@ -11,9 +11,3 @@ class Calc1rm:
         max_percent = self.max_reps[reps]
         self.one_rm = int(weight / max_percent)
         return self.one_rm
-
-
-# calc = MaxCalc()
-#
-# my_max = calc.calc_one_rm(5, 365)
-# print(my_max)
