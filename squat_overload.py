@@ -13,10 +13,10 @@ class SquatOverload:
         self.rep_hi = int(self.max_dict[3] * self.one_rm)
         self.rep_mid = int(self.max_dict[9] * self.one_rm)
         self.rep_low = int(self.max_dict[12] * self.one_rm)
-
-        self.rep_4 = int(self.max_dict[4] * self.one_rm)
-        self.rep_6 = int(self.max_dict[6] * self.one_rm)
+        self.rep_5 = int(self.max_dict[5] * self.one_rm)
         self.rep_20 = int(self.max_dict[18] * self.one_rm)
+
+        self.rep_next = int((self.rep_hi / self.max_dict[5]) * self.max_dict[3])
 
     def day1(self):
         return [(self.rep_hi, '3, 2, 1'), (self.rep_mid, 8), (self.rep_low, 10)]
@@ -25,7 +25,7 @@ class SquatOverload:
         return [(self.rep_hi, '5, 3, 1'), (self.rep_mid, 8), (self.rep_low, 8)]
 
     def day3(self):
-        return [(self.rep_mid, 5), (self.rep_6, 3), (self.rep_4, 1), (self.rep_hi, 1), (self.rep_20, 20)]
+        return [(self.rep_mid, 5), (self.rep_5, 3), (self.rep_hi, 1), (self.rep_next, 1), (self.rep_20, 20)]
 
 
 # squat = SquatWorkout(410, max_dict_from_calc1rm)
