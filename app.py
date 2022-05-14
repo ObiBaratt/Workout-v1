@@ -3,15 +3,14 @@ from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-from wtforms import IntegerField, SubmitField, SelectField
-from wtforms.validators import DataRequired
+from wtforms import IntegerField, SubmitField, SelectField, BooleanField
+from wtforms.validators import DataRequired, Optional
 from flask_bootstrap import Bootstrap
 
 from calc1rm import Calc1rm
 from squat_overload import squat_overload_func
 
 import os
-import sqlite3
 
 
 class InputForm(FlaskForm):
@@ -21,6 +20,15 @@ class InputForm(FlaskForm):
                                                     ('nothing', 'Nothing'),
                                                     ('also', 'Also Nothing')])
     submit = SubmitField(label='Submit')
+
+
+class MaxForm(FlaskForm):
+    new_max = IntegerField(label='New Max', validators=[Optional()])
+    workout = SelectField(label='Workout', choices=[('squat', 'Squat'),
+                                                    ('deadlift', 'Deadlift'),
+                                                    ('bench', 'Bench'),
+                                                    ('overhead', 'Overhead')])
+    submit = SubmitField(label='Update Maxes (Blank = no change)')
 
 
 # APP SETUP
@@ -39,6 +47,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(1000), nullable=False)
+    squat_max = db.Column(db.Integer, nullable=True)
+    deadlift_max = db.Column(db.Integer, nullable=True)
+    bench_max = db.Column(db.Integer, nullable=True)
+    overhead_max = db.Column(db.Integer, nullable=True)
 
 
 db.create_all()
@@ -111,10 +123,26 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/my_page')
+@app.route('/my_page', methods=['GET', 'POST'])
 @login_required
 def my_page():
-    return render_template('my_page.html')
+    max_form = MaxForm()
+    if max_form.validate_on_submit():
+        if max_form.workout.data == 'squat':
+            current_user.squat_max = max_form.new_max.data
+            flash(f'Squat max updated!')
+        if max_form.workout.data == 'deadlift':
+            current_user.deadlift_max = max_form.new_max.data
+            flash(f'Deadlift max updated!')
+        if max_form.workout.data == 'bench':
+            current_user.bench_max = max_form.new_max.data
+            flash(f'Bench max updated!')
+        if max_form.workout.data == 'overhead':
+            current_user.overhead_max = max_form.new_max.data
+            flash(f'Overhead max updated!')
+        db.session.commit()
+        return redirect((url_for('my_page')))
+    return render_template('my_page.html', max_form=max_form)
 
 
 @app.route('/logout')

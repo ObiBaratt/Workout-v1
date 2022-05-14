@@ -1,8 +1,57 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-
-    <h1>Welcome to your Personalized Homepage.</h1>
-        <h2>How are you today {{ current_user.name }}?</h2>
-
+<div>
+    <h1>Welcome {{ current_user.name }}.</h1>
+    <br/>
+        <table class="table">
+            <th>Current Maxes</th>
+<tr>
+    <td>Squat</td>
+    <td>Deadlift</td>
+    <td>Bench</td>
+    <td>Overhead</td>
+</tr>
+<tr>
+    <td>{{ current_user.squat_max }}</td>
+    <td>{{ current_user.deadlift_max }}</td>
+    <td>{{ current_user.bench_max }}</td>
+    <td>{{ current_user.overhead_max }}</td>
+</tr>
+        </table>
+    <div>{{ wtf.quick_form(max_form) }}</div>
+{##}
+{#<form action="" method="POST">#}
+{#    {{ max_form.csrf_token }}#}
+{#    <table>#}
+{#<tr>#}
+{#    <td>{{ max_form.squat_max.label }}</td>#}
+{#    <td>{{ max_form.deadlift_max.label }}</td>#}
+{#    <td>{{ max_form.bench_max.label }}</td>#}
+{#    <td>{{ max_form.overhead_max.label }}</td>#}
+{#</tr>#}
+{#<tr>#}
+{#    <td>{{ current_user.squat_max }}</td>#}
+{#    <td>{{ current_user.deadlift_max }}</td>#}
+{#    <td>{{ current_user.bench_max }}</td>#}
+{#    <td>{{ current_user.overhead_max }}</td>#}
+{#</tr>#}
+{#<tr>#}
+{#<td>{{ max_form.squat_max(size=10) }}</td>#}
+{#<td>{{ max_form.deadlift_max(size=10) }}</td>#}
+{#<td>{{ max_form.bench_max(size=10) }}</td>#}
+{#<td>{{ max_form.overhead_max(size=10) }}</td>#}
+{#</tr>#}
+{#    </table>#}
+{#</form>#}
+{#    <br/>#}
+{#    {{ max_form.submit }}#}
+{#</form>#}
+{##}
+{#</div>#}
+{#<br/>#}
+{#    <div>#}
+<a href="{{ url_for('home') }}">Calculate a new max.</a>
+    </div>
 {% endblock %}
