@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-    <div style="margin: 50px">
+    <div class="container">
         <h1>Welcome {{ current_user.name }}.</h1>
         <table class="table">
             <th>Current Maxes</th>
@@ -21,4 +21,5 @@
         <div>{{ wtf.quick_form(max_form) }}</div>
         <a href="{{ url_for('home') }}">Calculate a new max.</a>
     </div>
+
 {% endblock %}

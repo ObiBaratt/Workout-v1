@@ -35,6 +35,7 @@ class MaxForm(FlaskForm):
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['flask_key']
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # CHANGE TO NON SQLITE DB FOR DEPLOYMENT
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
