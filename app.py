@@ -92,7 +92,7 @@ def one_rm():
         reps = one_rm_form.reps.data
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
-        return render_template('one_rm.html', form=one_rm_form, one_rm=one_rm)
+        return render_template('one_rm.html', form=one_rm_form, one_rm=one_rm, calc=calc)
     return render_template('one_rm.html', form=one_rm_form)
 
 
