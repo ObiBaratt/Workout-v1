@@ -23,12 +23,18 @@ class InputForm(FlaskForm):
 
 
 class MaxForm(FlaskForm):
-    new_max = IntegerField(label='New Max', validators=[Optional()])
+    new_max = IntegerField(label='New Max', validators=[DataRequired()])
     workout = SelectField(label='Workout', choices=[('squat', 'Squat'),
                                                     ('deadlift', 'Deadlift'),
                                                     ('bench', 'Bench'),
                                                     ('overhead', 'Overhead')])
     submit = SubmitField(label='Update Maxes (Blank = no change)')
+
+
+class OneRmForm(FlaskForm):
+    weight = IntegerField(label='Weight', validators=[DataRequired()])
+    reps = IntegerField(label='Reps', validators=[DataRequired()])
+    submit = SubmitField(label='Calculate')
 
 
 # APP SETUP
@@ -64,18 +70,30 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    form = InputForm()
-    if form.validate_on_submit():
-        weight = form.weight.data
-        reps = form.reps.data
+    program_form = InputForm()
+    if program_form.validate_on_submit():
+        weight = program_form.weight.data
+        reps = program_form.reps.data
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
-        if form.workout.data == 'overload':  # REPLACE WITH A DICT FUNC OF WORKOUT PLANS
+        if program_form.workout.data == 'overload':  # REPLACE WITH A DICT FUNC OF WORKOUT PLANS
             overload = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
-            return render_template('workout.html', days=overload)
-        return render_template('index.html', form=form)
-    return render_template('index.html', form=form)
+            return render_template('workout.html', days=overload, one_rm=one_rm)
+        return render_template('index.html', form=program_form)
+    return render_template('index.html', form=program_form)
+
+
+@app.route('/calc_1rm', methods=['GET', 'POST'])
+def one_rm():
+    one_rm_form = OneRmForm()
+    if one_rm_form.validate_on_submit():
+        weight = one_rm_form.weight.data
+        reps = one_rm_form.reps.data
+        calc = Calc1rm()
+        one_rm = calc.calc_one_rm(weight=weight, reps=reps)
+        return render_template('one_rm.html', form=one_rm_form, one_rm=one_rm)
+    return render_template('one_rm.html', form=one_rm_form)
 
 
 @app.route('/register', methods=['GET', 'POST'])

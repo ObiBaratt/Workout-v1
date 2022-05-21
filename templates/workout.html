@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="container"><h3>Your calculated One Rep Max is: {{ one_rm }}</h3></div>
     {% for day in days %}
+        <div class="container">
         <table class="table table-bordered table-dark">
             <br/>
             <h2>Day {{ days.index(day) + 1 }}</h2>
@@ -20,6 +22,7 @@
 
             {% endfor %}
         </table>
+        </div>
     {% endfor %}
 
 {% endblock %}

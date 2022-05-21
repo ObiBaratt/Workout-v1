@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+    {% if one_rm %}
+    <div class="container"><h3>Your calculated One Rep Max is: {{ one_rm }}</h3></div>
+    {% endif %}
+
+    <div class="container">{{ wtf.quick_form(form) }}</div>
+
+{% endblock %}

@@ -39,6 +39,9 @@
           <li class="nav-item">
             <a class="nav-link btn" href="{{ url_for('home') }}">Home</a>
           </li>
+            <li class="nav-item">
+            <a class="nav-link btn" href="{{ url_for('one_rm') }}">Calc</a>
+          </li>
             {% if not current_user.is_authenticated %}
             <li class="nav-item">
             <a class="nav-link btn" href="{{ url_for('login') }}">Login</a>
