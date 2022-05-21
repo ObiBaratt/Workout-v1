@@ -24,10 +24,10 @@ class InputForm(FlaskForm):
 
 class MaxForm(FlaskForm):
     new_max = IntegerField(label='New Max', validators=[DataRequired()])
-    workout = SelectField(label='Workout', choices=[('squat', 'Squat'),
-                                                    ('deadlift', 'Deadlift'),
-                                                    ('bench', 'Bench'),
-                                                    ('overhead', 'Overhead')])
+    exercise = SelectField(label='Exercise', choices=[('squat', 'Squat'),
+                                                     ('deadlift', 'Deadlift'),
+                                                     ('bench', 'Bench'),
+                                                     ('overhead', 'Overhead')])
     submit = SubmitField(label='Update Maxes (Blank = no change)')
 
 
@@ -147,16 +147,16 @@ def login():
 def my_page():
     max_form = MaxForm()
     if max_form.validate_on_submit():
-        if max_form.workout.data == 'squat':
+        if max_form.exercise.data == 'squat':
             current_user.squat_max = max_form.new_max.data
             flash(f'Squat max updated!')
-        if max_form.workout.data == 'deadlift':
+        if max_form.exercise.data == 'deadlift':
             current_user.deadlift_max = max_form.new_max.data
             flash(f'Deadlift max updated!')
-        if max_form.workout.data == 'bench':
+        if max_form.exercise.data == 'bench':
             current_user.bench_max = max_form.new_max.data
             flash(f'Bench max updated!')
-        if max_form.workout.data == 'overhead':
+        if max_form.exercise.data == 'overhead':
             current_user.overhead_max = max_form.new_max.data
             flash(f'Overhead max updated!')
         db.session.commit()
