@@ -62,8 +62,8 @@ class NuckolsDeadlift:
         self.percent65 = set_calc(self.one_rm, 0.65)
         self.percent70 = set_calc(self.one_rm, 0.70)
         self.percent80 = set_calc(self.one_rm, 0.80)
-        self.percent92 = set_calc(self.one_rm, 0.92)
-        self.percent95 = set_calc(self.one_rm, 0.95)
+        self.percent85 = set_calc(self.one_rm, 0.85)
+        self.percent90 = set_calc(self.one_rm, 0.90)
 
     def day1(self):
         return [(self.percent80, 5), (self.percent80, 5), (self.percent80, 5), (self.percent80, 5),
@@ -79,5 +79,33 @@ class NuckolsDeadlift:
     def return_workouts(self):
         return self.day1(), self.day2(), self.day3()
 
-program = NuckolsSquat(405)
-print(program.return_workouts())
+
+# TODO: Make this work on app.py main route
+# squat = NuckolsSquat(365)
+# deadlift = NuckolsDeadlift(405)
+#
+# workout = {}
+#
+# workout['nuckolsSquat'] = squat.return_workouts()
+# print(workout)
+#
+# workout['nuckolsDeadlift'] = deadlift.return_workouts()
+# print(workout)
+#
+# print(workout['nuckolsSquat'])
+#
+# print(workout['nuckolsDeadlift'])
+#
+# print('for loop')
+#
+# for i in range(len(workout['nuckolsDeadlift'])):
+#     print(workout['nuckolsDeadlift'][i])
+# print('end')
+#
+# if workout['nuckolsDeadlift']:
+#     print(workout['nuckolsDeadlift'])
+# try:
+#      print(workout['overload'])
+# except KeyError:
+#     print('does not exist')
+#

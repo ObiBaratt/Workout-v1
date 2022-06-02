@@ -86,19 +86,19 @@ def home():
         if program_form.workout.data == 'overload':
             program = SquatOverload(one_rm=one_rm, max_dict=max_dict)
             workout = program.return_workouts()
-            return render_template('workout.html', days=workout, one_rm=one_rm)
+            return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         elif program_form.workout.data == 'nuckolsSquat':
             program = NuckolsSquat(one_rm=one_rm)
             workout = program.return_workouts()
-            return render_template('workout.html', days=workout, one_rm=one_rm)
+            return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         elif program_form.workout.data == 'nuckolsPress':
             program = NuckolsPress(one_rm=one_rm)
             workout = program.return_workouts()
-            return render_template('workout.html', days=workout, one_rm=one_rm)
+            return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         elif program_form.workout.data == 'nuckolsDeadlift':
             program = NuckolsDeadlift(one_rm=one_rm)
             workout = program.return_workouts()
-            return render_template('workout.html', days=workout, one_rm=one_rm)
+            return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         return render_template('index.html', form=program_form)
     return render_template('index.html', form=program_form)
 
