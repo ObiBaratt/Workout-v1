@@ -29,6 +29,9 @@ class NuckolsPress:
         return [(self.percent85, 3), (self.percent85, 3), (self.percent85, 3), (self.percent90, 1),
                 (self.percent90, 1), (self.percent90, 'AMAP')]
 
+    def return_workouts(self):
+        return self.day1(), self.day2(), self.day3()
+
 
 class NuckolsSquat:
     def __init__(self, one_rm):
@@ -47,6 +50,9 @@ class NuckolsSquat:
 
     def day3(self):
         return [(self.percent95, 'AMAPx3. Goal: 3')]
+
+    def return_workouts(self):
+        return self.day1(), self.day2(), self.day3()
 
 
 class NuckolsDeadlift:
@@ -69,4 +75,9 @@ class NuckolsDeadlift:
 
     def day3(self):
         return [(self.percent70, '6x3 EMOM')]
-    
+
+    def return_workouts(self):
+        return self.day1(), self.day2(), self.day3()
+
+program = NuckolsSquat(405)
+print(program.return_workouts())

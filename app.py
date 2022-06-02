@@ -8,7 +8,10 @@ from wtforms.validators import DataRequired, Optional
 from flask_bootstrap import Bootstrap
 
 from calc1rm import Calc1rm
-from squat_overload import squat_overload_func
+
+from workouts import *
+# TODO: Migrate to and replace with workouts.py
+from squat_overload import squat_overload_func, SquatOverload
 
 import os
 
@@ -16,9 +19,11 @@ import os
 class InputForm(FlaskForm):
     weight = IntegerField(label='Weight', validators=[DataRequired()])
     reps = IntegerField(label='Reps', default=1, validators=[DataRequired()])
+    # TODO: Add alternate workouts
     workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'),
-                                                    ('nothing', 'Nothing'),
-                                                    ('also', 'Also Nothing')])
+                                                    ('nuckolsSquat', 'Nuckols Squat'),
+                                                    ('nuckolsPress', 'Nuckols Press'),
+                                                    ('nuckolsDeadlift', 'Nuckols Deadlift')])
     submit = SubmitField(label='Submit')
 
 
@@ -77,9 +82,23 @@ def home():
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
         max_dict = calc.max_reps
-        if program_form.workout.data == 'overload':  # REPLACE WITH A DICT FUNC OF WORKOUT PLANS
-            overload = squat_overload_func(one_rm=one_rm, max_dict=max_dict)
-            return render_template('workout.html', days=overload, one_rm=one_rm)
+        # TODO: REPLACE WITH A DICT FUNC OF WORKOUT PLANS
+        if program_form.workout.data == 'overload':
+            program = SquatOverload(one_rm=one_rm, max_dict=max_dict)
+            workout = program.return_workouts()
+            return render_template('workout.html', days=workout, one_rm=one_rm)
+        elif program_form.workout.data == 'nuckolsSquat':
+            program = NuckolsSquat(one_rm=one_rm)
+            workout = program.return_workouts()
+            return render_template('workout.html', days=workout, one_rm=one_rm)
+        elif program_form.workout.data == 'nuckolsPress':
+            program = NuckolsPress(one_rm=one_rm)
+            workout = program.return_workouts()
+            return render_template('workout.html', days=workout, one_rm=one_rm)
+        elif program_form.workout.data == 'nuckolsDeadlift':
+            program = NuckolsDeadlift(one_rm=one_rm)
+            workout = program.return_workouts()
+            return render_template('workout.html', days=workout, one_rm=one_rm)
         return render_template('index.html', form=program_form)
     return render_template('index.html', form=program_form)
 

@@ -28,3 +28,6 @@ class SquatOverload:
 
     def day3(self):
         return [(self.rep_mid, 5), (self.rep_5, 3), (self.rep_hi, 1), (self.rep_next, 1), (self.rep_20, 20)]
+
+    def return_workouts(self):
+        return self.day1(), self.day2(), self.day3()
