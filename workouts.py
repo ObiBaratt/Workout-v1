@@ -59,14 +59,14 @@ class NuckolsDeadlift:
         self.percent92 = set_calc(self.one_rm, 0.92)
         self.percent95 = set_calc(self.one_rm, 0.95)
 
-#         print(rfive(0.80 * tmax), '4x5'), print(rfive(0.60 * tmax), '6x3 EMOM'), print('Rows 3x10'), print(
-#             'Shrugs 3x10'), print('Hip Thrusts 3x10')
-#     elif '2' in level:
-#         print(rfive(0.90 * tmax), '2x1'), print(rfive(0.85 * tmax), '3x3'), print(rfive(0.65 * tmax),
-#                                                                                   '6x3 EMOM'), print(
-#             'Rows 4x10'), print('Shrugs 4x10'), print('Hip Thrusts + 4x10')
-#     elif '3' in level:
-#         print(rfive(0.70 * tmax), '6x3 EMOM'), print('Rows 3x8'), print('Shrugs 3x8'), print('Hip Thrusts ++ 3x8')
-#     else:
-#         print('Time to max. Warmup and get to it!')
-#     print()
+    def day1(self):
+        return [(self.percent80, 5), (self.percent80, 5), (self.percent80, 5), (self.percent80, 5),
+                (self.percent60, '6x3 EMOM')]
+
+    def day2(self):
+        return [(self.percent90, 1), (self.percent90, 1), (self.percent85, 3), (self.percent85, 3), (self.percent85, 3),
+                (self.percent65, '6x3 EMOM')]
+
+    def day3(self):
+        return [(self.percent70, '6x3 EMOM')]
+    
