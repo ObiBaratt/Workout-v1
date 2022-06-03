@@ -1,4 +1,8 @@
-input:focus { font-size: 16px!important}
+input:focus {font-size: 16px !important;}
+
+input {touch-action: none !important;}
+
+#no_zoom {font-size: 16px}
 
 body {
     background-color: lightsteelblue;
