@@ -1,41 +1,15 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_wtf import FlaskForm
+
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-from wtforms import IntegerField, SubmitField, SelectField, BooleanField
-from wtforms.validators import DataRequired, Optional
+
 from flask_bootstrap import Bootstrap
 import os
 
 from calc1rm import Calc1rm
 from workouts import *
-
-
-class InputForm(FlaskForm):
-    weight = IntegerField(label='Weight', validators=[DataRequired()])
-    reps = IntegerField(label='Reps', default=1, validators=[DataRequired()])
-    # TODO: Add alternate workouts
-    workout = SelectField(label='Workout', choices=[('overload', 'Squat Overload'),
-                                                    ('nuckolsSquat', 'Nuckols Squat'),
-                                                    ('nuckolsPress', 'Nuckols Press'),
-                                                    ('nuckolsDeadlift', 'Nuckols Deadlift')])
-    submit = SubmitField(label='Submit')
-
-
-class MaxForm(FlaskForm):
-    new_max = IntegerField(label='New Max', validators=[DataRequired()])
-    exercise = SelectField(label='Exercise', choices=[('squat', 'Squat'),
-                                                     ('deadlift', 'Deadlift'),
-                                                     ('bench', 'Bench'),
-                                                     ('overhead', 'Overhead')])
-    submit = SubmitField(label='Update Maxes (Blank = no change)')
-
-
-class OneRmForm(FlaskForm):
-    weight = IntegerField(label='Weight', validators=[DataRequired()])
-    reps = IntegerField(label='Reps', validators=[DataRequired()])
-    submit = SubmitField(label='Calculate')
+from forms import *
 
 
 # APP SETUP
@@ -111,50 +85,42 @@ def one_rm():
     return render_template('one_rm.html', form=one_rm_form)
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    if request.method == 'POST':
-        if User.query.filter_by(email=request.form.get('email')).first():
-            # User already exists
-            flash("You've already signed up with that email, log in instead!")
-            return redirect(url_for('login'))
-
+    form = RegisterForm()
+    if form.validate_on_submit():
         new_user = User(
-            email=request.form.get('email'),
-            password=generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8),
-            name=request.form.get('name')
+            email=form.email.data,
+            name=form.name.data,
+            password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8,)
         )
         db.session.add(new_user)
         db.session.commit()
-
         login_user(new_user)
-        flash('You were successfully logged in.')
-        return redirect(url_for('my_page'))
+        flash('You were successfully logged in')
+        return redirect(url_for("blog"))
+    return render_template("register.html", form=form)
 
-    return render_template("register.html")
 
-
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        user = User.query.filter_by(email=email).first()
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
         if not user:
             # Wrong user
             flash("That email does not exist, please try again.")
             return redirect(url_for('login'))
             # Password incorrect
-        elif not check_password_hash(user.password, password):
+        elif not check_password_hash(user.password, form.password.data):
             flash('Password incorrect, please try again.')
             return redirect(url_for('login'))
         else:
             # All good
             login_user(user)
-            flash('You were successfully logged in.')
-            return redirect(url_for('my_page'))
-    return render_template('login.html')
+            flash('You were successfully logged in', "success")
+            return redirect(url_for('home'))
+    return render_template('login.html', form=form)
 
 
 @app.route('/my_page', methods=['GET', 'POST'])
