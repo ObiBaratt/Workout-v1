@@ -6,14 +6,10 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from wtforms import IntegerField, SubmitField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Optional
 from flask_bootstrap import Bootstrap
+import os
 
 from calc1rm import Calc1rm
-
 from workouts import *
-# TODO: Migrate to and replace with workouts.py
-from squat_overload import squat_overload_func, SquatOverload
-
-import os
 
 
 class InputForm(FlaskForm):
@@ -84,7 +80,7 @@ def home():
         max_dict = calc.max_reps
         # TODO: REPLACE WITH A DICT FUNC OF WORKOUT PLANS
         if program_form.workout.data == 'overload':
-            program = SquatOverload(one_rm=one_rm, max_dict=max_dict)
+            program = SquatOverload(one_rm=one_rm)
             workout = program.return_workouts()
             return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         elif program_form.workout.data == 'nuckolsSquat':

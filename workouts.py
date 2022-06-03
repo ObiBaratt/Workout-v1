@@ -80,6 +80,30 @@ class NuckolsDeadlift:
         return self.day1(), self.day2(), self.day3()
 
 
+class SquatOverload:
+    def __init__(self, one_rm):
+        self.one_rm = one_rm
+
+        self.rep_hi = round_nearest_five(self.one_rm * 0.94)
+        self.rep_mid = round_nearest_five(self.one_rm * 0.78)
+        self.rep_low = round_nearest_five(self.one_rm * 0.71)
+        self.rep_5 = round_nearest_five(self.one_rm * 0.89)
+        self.rep_20 = round_nearest_five(self.one_rm * 0.63)
+        self.rep_next = int((self.rep_hi / 0.89) * 0.94)
+
+    def day1(self):
+        return [(self.rep_hi, 3), (self.rep_hi, 2), (self.rep_hi, 1), (self.rep_mid, 8), (self.rep_low, 10)]
+
+    def day2(self):
+        return [(self.rep_hi, 5), (self.rep_hi, 3), (self.rep_hi, 1), (self.rep_mid, 8), (self.rep_low, 8)]
+
+    def day3(self):
+        return [(self.rep_mid, 5), (self.rep_5, 3), (self.rep_hi, 1), (self.rep_next, 1), (self.rep_20, 20)]
+
+    def return_workouts(self):
+        return self.day1(), self.day2(), self.day3()
+
+
 # TODO: Make this work on app.py main route
 # squat = NuckolsSquat(365)
 # deadlift = NuckolsDeadlift(405)
