@@ -1,3 +1,5 @@
+# OLD CODE FROM V1, FUNCTIONALITY IS IN WORKOUTS.PY WITH ALL OTHER WORKOUTS
+
 def squat_overload_func(one_rm, max_dict):
     squat = SquatOverload(one_rm=one_rm, max_dict=max_dict)
     return squat.day1(), squat.day2(), squat.day3()
