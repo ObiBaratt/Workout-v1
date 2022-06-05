@@ -5,6 +5,7 @@
         <h1>Welcome {{ current_user.name }}.</h1>
         <table class="table">
             <th>Current Maxes</th>
+            <th>        <a href="{{ url_for('one_rm') }}">Calculate Max</a></th>
             <tr>
                 <td>Squat</td>
                 <td>Deadlift</td>
@@ -19,9 +20,9 @@
             </tr>
         </table>
         <div>{{ wtf.quick_form(max_form) }}</div>
-{#        <a href="{{ url_for('one_rm') }}">Calculate a new max.</a>#}
         <h2>My Notes</h2>
         <p>{{ current_user.notes|safe }}</p>
+    {{ ckeditor.load() }}
     {{ wtf.quick_form(notes) }}
     </div>
 

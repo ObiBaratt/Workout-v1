@@ -35,7 +35,7 @@ class User(UserMixin, db.Model):
     deadlift_max = db.Column(db.Integer, nullable=True)
     bench_max = db.Column(db.Integer, nullable=True)
     overhead_max = db.Column(db.Integer, nullable=True)
-    notes = db.Column(db.String(5000), default='Your notes go here.')
+    notes = db.Column(db.String(50000), default='Your notes go here.')
 
 
 db.create_all()
@@ -130,11 +130,9 @@ def login():
 @login_required
 def my_page():
     max_form = MaxForm()
-    notes = NoteForm()
+    notes = NoteForm(notes=current_user.notes)
     if notes.validate_on_submit():
-        print(notes.data, 'data')
-        # print(notes.data.notes, 'note')
-        current_user.notes = notes.data['notes']
+        current_user.notes = strip_invalid_html(notes.data['notes'])
         flash(f'Noted!')
         db.session.commit()
         return redirect((url_for('my_page')))
