@@ -19,7 +19,10 @@
             </tr>
         </table>
         <div>{{ wtf.quick_form(max_form) }}</div>
-        <a href="{{ url_for('one_rm') }}">Calculate a new max.</a>
+{#        <a href="{{ url_for('one_rm') }}">Calculate a new max.</a>#}
+        <h2>My Notes</h2>
+        <p>{{ current_user.notes|safe }}</p>
+    {{ wtf.quick_form(notes) }}
     </div>
 
 {% endblock %}

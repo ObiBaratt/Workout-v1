@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField, SelectField, StringField, PasswordField
 from wtforms.validators import DataRequired, Optional
+from flask_ckeditor import CKEditor, CKEditorField
 
 
 class InputForm(FlaskForm):
@@ -40,3 +41,8 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
+
+
+class NoteForm(FlaskForm):
+    notes = CKEditorField("Update Notes", validators=[DataRequired()])
+    submit = SubmitField("Update Notes")

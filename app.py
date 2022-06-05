@@ -3,10 +3,11 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-
+from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap
 import os
 
+from inputcleaner import strip_invalid_html
 from calc1rm import Calc1rm
 from workouts import *
 from forms import *
@@ -15,9 +16,10 @@ from forms import *
 # APP SETUP
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['flask_key']
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users3.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Bootstrap(app)
+ckeditor = CKEditor(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 db = SQLAlchemy(app)
@@ -33,6 +35,7 @@ class User(UserMixin, db.Model):
     deadlift_max = db.Column(db.Integer, nullable=True)
     bench_max = db.Column(db.Integer, nullable=True)
     overhead_max = db.Column(db.Integer, nullable=True)
+    notes = db.Column(db.String(5000), default='Your notes go here.')
 
 
 db.create_all()
@@ -98,7 +101,7 @@ def register():
         db.session.commit()
         login_user(new_user)
         flash('You were successfully logged in')
-        return redirect(url_for("blog"))
+        return redirect(url_for("my_page"))
     return render_template("register.html", form=form)
 
 
@@ -119,7 +122,7 @@ def login():
             # All good
             login_user(user)
             flash('You were successfully logged in', "success")
-            return redirect(url_for('home'))
+            return redirect(url_for('my_page'))
     return render_template('login.html', form=form)
 
 
@@ -127,6 +130,14 @@ def login():
 @login_required
 def my_page():
     max_form = MaxForm()
+    notes = NoteForm()
+    if notes.validate_on_submit():
+        print(notes.data, 'data')
+        # print(notes.data.notes, 'note')
+        current_user.notes = notes.data['notes']
+        flash(f'Noted!')
+        db.session.commit()
+        return redirect((url_for('my_page')))
     if max_form.validate_on_submit():
         if max_form.exercise.data == 'squat':
             current_user.squat_max = max_form.new_max.data
@@ -142,7 +153,7 @@ def my_page():
             flash(f'Overhead max updated!')
         db.session.commit()
         return redirect((url_for('my_page')))
-    return render_template('my_page.html', max_form=max_form)
+    return render_template('my_page.html', max_form=max_form, notes=notes)
 
 
 @app.route('/logout')
