@@ -21,7 +21,7 @@ class MaxForm(FlaskForm):
                                                       ('deadlift', 'Deadlift'),
                                                       ('bench', 'Bench'),
                                                       ('overhead', 'Overhead')])
-    submit = SubmitField(label='Update Maxes (Blank = no change)')
+    submit = SubmitField(label='Update Max')
 
 
 class OneRmForm(FlaskForm):

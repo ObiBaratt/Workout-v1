@@ -17,7 +17,7 @@ from forms import *
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ['flask_key']
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users3.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     Bootstrap(app)
     return app
@@ -137,24 +137,25 @@ def login():
 def my_page():
     max_form = MaxForm()
     notes = NoteForm(notes=current_user.notes)
-    if notes.validate_on_submit():
-        current_user.notes = strip_invalid_html(notes.data['notes'])
-        flash(f'Noted!')
-        db.session.commit()
-        return redirect((url_for('my_page')))
-    if max_form.validate_on_submit():
+    if max_form.submit.data and max_form.validate_on_submit():
         if max_form.exercise.data == 'squat':
+            print(max_form.new_max.data)
             current_user.squat_max = max_form.new_max.data
             flash(f'Squat max updated!')
-        if max_form.exercise.data == 'deadlift':
+        elif max_form.exercise.data == 'deadlift':
             current_user.deadlift_max = max_form.new_max.data
             flash(f'Deadlift max updated!')
-        if max_form.exercise.data == 'bench':
+        elif max_form.exercise.data == 'bench':
             current_user.bench_max = max_form.new_max.data
             flash(f'Bench max updated!')
-        if max_form.exercise.data == 'overhead':
+        elif max_form.exercise.data == 'overhead':
             current_user.overhead_max = max_form.new_max.data
             flash(f'Overhead max updated!')
+        db.session.commit()
+        return redirect((url_for('my_page')))
+    elif notes.validate_on_submit():
+        current_user.notes = strip_invalid_html(notes.data['notes'])
+        flash(f'Noted!')
         db.session.commit()
         return redirect((url_for('my_page')))
     return render_template('my_page.html', max_form=max_form, notes=notes)
