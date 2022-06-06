@@ -14,14 +14,19 @@ from forms import *
 
 
 # APP SETUP
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['flask_key']
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users3.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-Bootstrap(app)
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = os.environ['flask_key']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('PG_DB_URL', 'sqlite:///users3.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    Bootstrap(app)
+    return app
+
+app = create_app()
 ckeditor = CKEditor(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 db = SQLAlchemy(app)
 
 
