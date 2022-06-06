@@ -22,13 +22,14 @@ def create_app():
     Bootstrap(app)
     return app
 
+
 app = create_app()
-ckeditor = CKEditor(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 db = SQLAlchemy(app)
 
+ckeditor = CKEditor(app)
 
 # CREATE USER CONFIG FOR DB
 class User(UserMixin, db.Model):
