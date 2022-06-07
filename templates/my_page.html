@@ -3,27 +3,54 @@
 {% block content %}
     <div class="container">
         <h1>Welcome {{ current_user.name }}.</h1>
-        <table class="table">
-            <th>Current Maxes</th>
-            <th>        <a href="{{ url_for('one_rm') }}">Calculate Max</a></th>
-            <tr>
-                <td>Squat</td>
-                <td>Deadlift</td>
-                <td>Bench</td>
-                <td>Overhead</td>
-            </tr>
-            <tr>
-                <td>{{ current_user.squat_max }}</td>
-                <td>{{ current_user.deadlift_max }}</td>
-                <td>{{ current_user.bench_max }}</td>
-                <td>{{ current_user.overhead_max }}</td>
-            </tr>
-        </table>
-        <div>{{ wtf.quick_form(max_form) }}</div>
-        <h2>My Notes</h2>
-        <p>{{ current_user.notes|safe }}</p>
-    {{ ckeditor.load() }}
-    {{ wtf.quick_form(notes) }}
     </div>
 
+    <!-- Nav tabs -->
+    <div class="container">
+        <ul class="nav nav-tabs nav-fill" role="tablist">
+            <li class="active"><a href="#hometab" role="tab" data-toggle="tab">Maxes</a></li>
+            <li><a href="#notetab" role="tab" data-toggle="tab">Notes</a></li>
+            <li><a href="#workouts" role="tab" data-toggle="tab">Workouts</a></li>
+        </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active container" id="hometab">
+            <table class="table">
+                <th>Current Maxes</th>
+                <th><a href="{{ url_for('one_rm') }}">Calculate Max</a></th>
+                <tr>
+                    <td>Squat</td>
+                    <td>Deadlift</td>
+                    <td>Bench</td>
+                    <td>Overhead</td>
+                </tr>
+                <tr>
+                    <td>{{ current_user.squat_max }}</td>
+                    <td>{{ current_user.deadlift_max }}</td>
+                    <td>{{ current_user.bench_max }}</td>
+                    <td>{{ current_user.overhead_max }}</td>
+                </tr>
+            </table>
+            <h3>Update your maxes:</h3>
+            {{ wtf.quick_form(max_form) }}
+        </div>
+
+        <div class="tab-pane container" id="notetab">
+            <h3>My Notes</h3>
+            <p>{{ current_user.notes|safe }}</p>
+            {{ ckeditor.load() }}
+            {{ wtf.quick_form(notes) }}
+        </div>
+
+        <div class="tab-pane" id="workouts">
+            <div class="container">
+                <h3>My Workouts</h3>
+                One day you'll be able to save workouts... not today though.
+            </div>
+        </div>
+
+    </div>
+    </body>
 {% endblock %}

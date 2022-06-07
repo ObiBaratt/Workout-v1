@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>#}
 </head>
 <body>
     <!-- Tabs navs -->
@@ -44,22 +44,25 @@
 {#  </li>#}
 {#</ul>#}
 <!-- Tabs navs -->
+    <div class="container">
 <h1>Welcome {{ current_user.name }}.</h1>
-
+</div>
 <!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
+    <div class="container">
+<ul class="nav nav-tabs nav-fill" role="tablist">
   <li class="active"><a href="#hometab" role="tab" data-toggle="tab">Maxes</a></li>
   <li><a href="#notetab" role="tab" data-toggle="tab">Notes</a></li>
-  <li><a href="#csharptab" role="tab" data-toggle="tab">C#</a></li>
-  <li><a href="#mysqltab" role="tab" data-toggle="tab">MySQL</a></li>
-  <li><a href="#jquerytab" role="tab" data-toggle="tab">jQuery</a></li>
-
+{#    DISABLED FOR NOW, MERGED FEATURES INTO MAX / NOTES TABS#}
+{#  <li><a href="#updatemax" role="tab" data-toggle="tab">Update Maxes</a></li>#}
+{#  <li><a href="#updatenotes" role="tab" data-toggle="tab">Update Notes</a></li>#}
+  <li><a href="#workouts" role="tab" data-toggle="tab">Workouts</a></li>
 </ul>
-</li>
+</div>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="hometab">  <table class="table">
+  <div class="tab-pane active container" id="hometab">
+      <table class="table">
             <th>Current Maxes</th>
             <th><a href="{{ url_for('one_rm') }}">Calculate Max</a></th>
             <tr>
@@ -75,16 +78,23 @@
                 <td>{{ current_user.overhead_max }}</td>
             </tr>
         </table>
-  <div>{{ wtf.quick_form(max_form) }}</div></div>
+                <h3>Update your maxes:</h3>
+                {{ wtf.quick_form(max_form) }}
+  </div>
 
-  <div class="tab-pane" id="notetab">   <h2>My Notes</h2>
+  <div class="tab-pane container" id="notetab">
+      <h3>My Notes</h3>
         <p>{{ current_user.notes|safe }}</p>
-    {{ ckeditor.load() }}
-    {{ wtf.quick_form(notes) }}.</div>
+              {{ ckeditor.load() }}
+        {{ wtf.quick_form(notes) }}
+</div>
 
-  <div class="tab-pane" id="csharptab">C# is also a programming language</div>
-  <div class="tab-pane" id="mysqltab">MySQL is a databased mostly used for web applications.</div>
-  <div class="tab-pane" id="jquerytab">jQuery content here</div>
+  <div class="tab-pane" id="workouts">
+      <div class="container">
+          <h3>My Workouts</h3>
+          One day you'll be able to save workouts... not today though.
+      </div>
+  </div>
 
 </div>
 </body>
