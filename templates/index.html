@@ -1,11 +1,33 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
     <div class="container">
 
-    <h1>Program Generator</h1>
-        <h3>Enter Your Max:</h3>
-                    {{ wtf.quick_form(form, id="no_zoom") }}
+    <h1>Welcome to my Workout Web</h1>
+        <h2>Filler page for now</h2>
+     <ul>
+          <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('home') }}">Home</a>
+          </li>
+        <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('programs') }}">Programs</a>
+          </li>
+            <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('one_rm') }}">Calc</a>
+          </li>
+            <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('login') }}">Login</a>
+          </li>
+          <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('register') }}">Register</a>
+          </li>
+            <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('my_page') }}">My Page</a>
+          </li>
+            <li>
+            <a class="btn btn-dark btn-outline-light" href="{{ url_for('logout') }}">Log Out</a>
+            </li>
+     </ul>
+
     </div>
 
 {% endblock %}

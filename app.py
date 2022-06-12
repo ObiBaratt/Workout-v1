@@ -31,6 +31,7 @@ db = SQLAlchemy(app)
 
 ckeditor = CKEditor(app)
 
+
 # CREATE USER CONFIG FOR DB
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,8 +53,13 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
+    return render_template('index.html')
+
+
+@app.route('/programs', methods=['GET', 'POST'])
+def programs():
     program_form = InputForm()
     if program_form.validate_on_submit():
         weight = program_form.weight.data
@@ -78,8 +84,8 @@ def home():
             program = NuckolsDeadlift(one_rm=one_rm)
             workout = program.return_workouts()
             return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
-        return render_template('index.html', form=program_form)
-    return render_template('index.html', form=program_form)
+        return render_template('programs.html', form=program_form)
+    return render_template('programs.html', form=program_form)
 
 
 @app.route('/calc_1rm', methods=['GET', 'POST'])
