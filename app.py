@@ -34,7 +34,6 @@ ckeditor = CKEditor(app)
 
 # CREATE USER CONFIG FOR DB
 class User(UserMixin, db.Model):
-    __tablename__ = "user_info"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -43,20 +42,8 @@ class User(UserMixin, db.Model):
     deadlift_max = db.Column(db.Integer, nullable=True)
     bench_max = db.Column(db.Integer, nullable=True)
     overhead_max = db.Column(db.Integer, nullable=True)
-    notes = db.relationship('NotesDB', backref='author', lazy='dynamic')
-    workouts = db.relationship('WorkoutDB', backref='author', lazy='dynamic')
-
-
-class NotesDB(db.Model):
-    __tablename__= "user_notes"
     notes = db.Column(db.String(50000), default='Your notes go here.')
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
-class WorkoutDB(db.Model):
-    __tablename__ = "user_workouts"
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # workouts = db.Column(db.String(50000), default='[Squat, 1000000]')
 
 
 db.create_all()
@@ -124,7 +111,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        login_user(new_user, remember=True)
+        login_user(new_user)
         flash('You were successfully logged in')
         return redirect(url_for("my_page"))
     return render_template("register.html", form=form)
