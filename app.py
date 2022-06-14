@@ -80,7 +80,6 @@ def programs():
         reps = program_form.reps.data
         calc = Calc1rm()
         one_rm = calc.calc_one_rm(weight=weight, reps=reps)
-        max_dict = calc.max_reps
         # TODO: REPLACE WITH A DICT FUNC OF WORKOUT PLANS
         if program_form.workout.data == 'overload':
             program = SquatOverload(one_rm=one_rm)
@@ -125,7 +124,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        login_user(new_user)
+        login_user(new_user, remember=True)
         flash('You were successfully logged in')
         return redirect(url_for("my_page"))
     return render_template("register.html", form=form)
