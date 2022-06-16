@@ -12,6 +12,8 @@ from calc1rm import Calc1rm
 from workouts import *
 from forms import *
 
+import datetime
+current_year = datetime.datetime.today().year
 
 # APP SETUP
 def create_app():
@@ -31,6 +33,9 @@ db = SQLAlchemy(app)
 
 ckeditor = CKEditor(app)
 
+@app.context_processor
+def global_variables():
+    return dict(year=current_year)
 
 # CREATE USER CONFIG FOR DB
 class User(UserMixin, db.Model):
@@ -86,6 +91,12 @@ def programs():
             return render_template('workout.html', days=workout, one_rm=one_rm, name=program.__class__.__name__)
         return render_template('programs.html', form=program_form)
     return render_template('programs.html', form=program_form)
+
+
+@app.route('/about')
+def about():
+    home_url = url_for('home')
+    return f'<h1>Currently Under Construction...Return <a href="{home_url}">to the Home page.</a>'
 
 
 @app.route('/calc_1rm', methods=['GET', 'POST'])
