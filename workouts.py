@@ -19,15 +19,15 @@ class NuckolsPress:
 
     def day1(self):
         return [(self.percent80, 5), (self.percent80, 5), (self.percent80, 5), (self.percent80, 5),
-                (self.percent85, 3), (self.percent85, 'AMAP')]
+                (self.percent85, 3), (self.percent85, 'AMAP, 5+')]
 
     def day2(self):
         return [(self.percent80, 5), (self.percent80, 5), (self.percent85, 3), (self.percent85, 3),
-                (self.percent85, 3), (self.percent85, 'AMAP')]
+                (self.percent85, 3), (self.percent85, 'AMAP, 5+')]
 
     def day3(self):
         return [(self.percent85, 3), (self.percent85, 3), (self.percent85, 3), (self.percent90, 1),
-                (self.percent90, 1), (self.percent90, 'AMAP')]
+                (self.percent90, 1), (self.percent90, 'AMAP, 3+')]
 
     def return_workouts(self):
         return self.day1(), self.day2(), self.day3()

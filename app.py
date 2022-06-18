@@ -150,6 +150,7 @@ def login():
 
 
 @app.route('/testing', methods=['GET', 'POST'])
+@login_required
 def testing():
     max_form = MaxForm()
     notes = NoteForm(notes=current_user.notes)
@@ -211,6 +212,11 @@ def logout():
     logout_user()
     flash('You were successfully logged out.')
     return redirect(url_for('home'))
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

@@ -4,8 +4,11 @@
 <div class="container">
     <h1>Login</h1>
         {% if error %}
-            <p class=error><strong>Error:</strong> {{ error }}
+            <p class=error><strong>Error:</strong> {{ error }}</p>
         {% endif %}
 </div>
-    <div class="container">{{ wtf.quick_form(form) }}</div>
+    <div class="container">{{ wtf.quick_form(form) }}
+    <a href="{{ url_for('register') }}">Not registered?</a>
+    </div>
+
 {% endblock %}

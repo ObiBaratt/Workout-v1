@@ -36,28 +36,28 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('home') }}">Home</a>
           </li>
-        <li class="nav-item">
+        <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('programs') }}">Programs</a>
           </li>
-            <li class="nav-item">
+            <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('one_rm') }}">Calc</a>
           </li>
             {% if not current_user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('login') }}">Login</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('register') }}">Register</a>
           </li>
             {% endif %}
         {% if current_user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('my_page') }}">My Page</a>
           </li>
-            <li class="nav-item">
+            <li class="nav-item px-3">
             <a class="nav-link btn" href="{{ url_for('logout') }}">Log Out</a>
           </li>
         {% endif %}
