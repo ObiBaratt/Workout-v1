@@ -15,23 +15,32 @@
     </div>
 
     <!-- Tab panes -->
-    <div class="tab-content">
+    <div class="tab-content" style="margin-bottom: 20px">
         <div class="tab-pane active container" id="hometab">
             <table class="table">
                 <th>Current Maxes</th>
                 <th><a href="{{ url_for('one_rm') }}">Calculate Max</a></th>
                 <tr>
+                    <td>Weight</td>
                     <td>Squat</td>
                     <td>Deadlift</td>
                     <td>Bench</td>
                     <td>Overhead</td>
                 </tr>
                 <tr>
+                    <td>{{ current_user.weight }}</td>
                     <td>{{ current_user.squat_max }}</td>
                     <td>{{ current_user.deadlift_max }}</td>
                     <td>{{ current_user.bench_max }}</td>
                     <td>{{ current_user.overhead_max }}</td>
                 </tr>
+{#                <tr>#}
+{#                    <td>Ratios</td>#}
+{#                    <td>{{ current_user.squat_max / current_user.weight }}</td>#}
+{#                    <td>{{ current_user.deadlift_max / current_user.weight }}</td>#}
+{#                    <td>{{ current_user.bench_max / current_user.weight }}</td>#}
+{#                    <td>{{ current_user.overhead_max / current_user.weight }}</td><td></td>#}
+{#                </tr>#}
             </table>
             <h3>Update your maxes:</h3>
             {{ wtf.quick_form(max_form) }}

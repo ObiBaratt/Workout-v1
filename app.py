@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
+
 import os
 
 from inputcleaner import strip_invalid_html
@@ -14,6 +16,7 @@ from forms import *
 
 import datetime
 current_year = datetime.datetime.today().year
+
 
 # APP SETUP
 def create_app():
@@ -30,12 +33,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 db = SQLAlchemy(app)
+# migrate = Migrate(app, db)
 
 ckeditor = CKEditor(app)
 
 @app.context_processor
 def global_variables():
     return dict(year=current_year)
+
 
 # CREATE USER CONFIG FOR DB
 class User(UserMixin, db.Model):
@@ -47,6 +52,7 @@ class User(UserMixin, db.Model):
     deadlift_max = db.Column(db.Integer, nullable=True)
     bench_max = db.Column(db.Integer, nullable=True)
     overhead_max = db.Column(db.Integer, nullable=True)
+    weight = db.Column(db.Integer, nullable=True)
     notes = db.Column(db.String(50000), default='Your notes go here.')
     # workouts = db.Column(db.String(50000), default='[Squat, 1000000]')
 
@@ -149,33 +155,33 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/testing', methods=['GET', 'POST'])
-@login_required
-def testing():
-    max_form = MaxForm()
-    notes = NoteForm(notes=current_user.notes)
-    if max_form.submit.data and max_form.validate_on_submit():
-        if max_form.exercise.data == 'squat':
-            print(max_form.new_max.data)
-            current_user.squat_max = max_form.new_max.data
-            flash(f'Squat max updated!')
-        elif max_form.exercise.data == 'deadlift':
-            current_user.deadlift_max = max_form.new_max.data
-            flash(f'Deadlift max updated!')
-        elif max_form.exercise.data == 'bench':
-            current_user.bench_max = max_form.new_max.data
-            flash(f'Bench max updated!')
-        elif max_form.exercise.data == 'overhead':
-            current_user.overhead_max = max_form.new_max.data
-            flash(f'Overhead max updated!')
-        db.session.commit()
-        return redirect((url_for('testing')))
-    elif notes.validate_on_submit():
-        current_user.notes = strip_invalid_html(notes.data['notes'])
-        flash(f'Noted!')
-        db.session.commit()
-        return redirect((url_for('testing', id='notetab')))
-    return render_template('testing.html', max_form=max_form, notes=notes)
+# @app.route('/testing', methods=['GET', 'POST'])
+# @login_required
+# def testing():
+#     max_form = MaxForm()
+#     notes = NoteForm(notes=current_user.notes)
+#     if max_form.submit.data and max_form.validate_on_submit():
+#         if max_form.exercise.data == 'squat':
+#             print(max_form.new_max.data)
+#             current_user.squat_max = max_form.new_max.data
+#             flash(f'Squat max updated!')
+#         elif max_form.exercise.data == 'deadlift':
+#             current_user.deadlift_max = max_form.new_max.data
+#             flash(f'Deadlift max updated!')
+#         elif max_form.exercise.data == 'bench':
+#             current_user.bench_max = max_form.new_max.data
+#             flash(f'Bench max updated!')
+#         elif max_form.exercise.data == 'overhead':
+#             current_user.overhead_max = max_form.new_max.data
+#             flash(f'Overhead max updated!')
+#         db.session.commit()
+#         return redirect((url_for('testing')))
+#     elif notes.validate_on_submit():
+#         current_user.notes = strip_invalid_html(notes.data['notes'])
+#         flash(f'Noted!')
+#         db.session.commit()
+#         return redirect((url_for('testing', id='notetab')))
+#     return render_template('testing.html', max_form=max_form, notes=notes)
 
 
 @app.route('/my_page', methods=['GET', 'POST'])
@@ -197,6 +203,8 @@ def my_page():
         elif max_form.exercise.data == 'overhead':
             current_user.overhead_max = max_form.new_max.data
             flash(f'Overhead max updated!')
+        elif max_form.exercise.data == 'weight':
+            current_user.weight = max_form.new_max.data
         db.session.commit()
         return redirect((url_for('my_page')))
     elif notes.validate_on_submit():

@@ -20,7 +20,8 @@ class MaxForm(FlaskForm):
     exercise = SelectField(label='Exercise', choices=[('squat', 'Squat'),
                                                       ('deadlift', 'Deadlift'),
                                                       ('bench', 'Bench'),
-                                                      ('overhead', 'Overhead')])
+                                                      ('overhead', 'Overhead'),
+                                                      ('weight', 'User Weight')])
     submit = SubmitField(label='Update Max')
 
 
