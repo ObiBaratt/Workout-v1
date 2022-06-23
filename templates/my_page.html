@@ -34,13 +34,13 @@
                     <td>{{ current_user.bench_max }}</td>
                     <td>{{ current_user.overhead_max }}</td>
                 </tr>
-{#                <tr>#}
-{#                    <td>Ratios</td>#}
-{#                    <td>{{ current_user.squat_max / current_user.weight }}</td>#}
-{#                    <td>{{ current_user.deadlift_max / current_user.weight }}</td>#}
-{#                    <td>{{ current_user.bench_max / current_user.weight }}</td>#}
-{#                    <td>{{ current_user.overhead_max / current_user.weight }}</td><td></td>#}
-{#                </tr>#}
+                <tr>
+                    <td>Ratios</td>
+                    <td>{{ "%.2f" % (current_user.squat_max / current_user.weight) }}</td>
+                    <td>{{ "%.2f" % (current_user.deadlift_max / current_user.weight) }}</td>
+                    <td>{{ "%.2f" % (current_user.bench_max / current_user.weight) }}</td>
+                    <td>{{ "%.2f" % (current_user.overhead_max / current_user.weight) }}</td><td></td>
+                </tr>
             </table>
             <h3>Update your maxes:</h3>
             {{ wtf.quick_form(max_form) }}
