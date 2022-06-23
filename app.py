@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 
 import os
 
