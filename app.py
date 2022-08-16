@@ -37,6 +37,7 @@ db = SQLAlchemy(app)
 
 ckeditor = CKEditor(app)
 
+
 @app.context_processor
 def global_variables():
     return dict(year=current_year)
