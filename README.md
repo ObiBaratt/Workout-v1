@@ -1,20 +1,20 @@
-Workout Web is an attempt to create the workout tracking / program 
-generating app I've always wanted.
+Currently LIVE at: https://workout-web.herokuapp.com/ until November 28th.
 
-Current Features: 
+# History
+Workout Web is an attempt to create the workout tracking / program generating app I always wanted. I realized while doing this project that Full Stack Python was NOT the path forward, and that I needed to learn a full JavaScript stack in order to build the app I actually want. Additionally the ideal was always a mobile app.
 
-1. Generate programs: Overload, Nuckols Press / Squat / Deadlift.<br/>
-To Do:<br/> a. Add Custom Programs, <br/>
-		b. shift programs from classes in Python code<br/>
-			to API format 
+Workout Web is, and will remain a fully functional Full Stack Web App with a solid backend, and a frontend severely limited by the tools I had available at the time. It's a legacy project that demonstrates how far I was able to get with pure Python and backend development for a Full Stack App. 
 
-2. Save User data. Currently saves user maxes for Squat, Bench Press, Deadlift,
-and Overhead Press.<br/>
-To Do: <br/>a. Save workouts, 
-		b. add interaction with workouts(Pending, RPE, Complete/Fail)<br/>
-		~~c. Add user note feature~~<br/>
-		d. Workout history including info from interaction<br/>
- 
-3. Calculate One Rep Max<br/>
- ~~displays estimated 1-20 rep maxes~~
+## Main Page
+![Main Page on Desktop](https://github.com/ObiBaratt/Workout-Web/blob/main/static/img/ww-main.jpg)
+## User Homepage
+![User Homepage on Desktop](https://github.com/ObiBaratt/Workout-Web/blob/main/static/img/ww-home.jpg)
+## One Rep Max Calculator (Genereates 1-20 rep max based on user input)
+![One Rep Max Calc on Desktop](https://github.com/ObiBaratt/Workout-Web/blob/main/static/img/ww-1rm.jpg)
+## Program Generator (Example for a Bench / Overhead Press workout) on mobile.
+![Workout Generation on Mobile](https://github.com/ObiBaratt/Workout-Web/blob/main/static/img/ww-res-prog.jpg)
+
+
+# Future
+I still love this project, and the idea behind it. Now that I've picked up Full Stack JavaScript I have significantly better tools to upgrade and work on this further. Specifically a full rewrite in React Native, with a serverless backend in order to get maximum flexibility between platforms. It will be mobile first design, as that's where I always wanted to take the original, but will have a fully functional webapp as well!
 
