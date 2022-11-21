@@ -156,35 +156,6 @@ def login():
     return render_template('login.html', form=form)
 
 
-# @app.route('/testing', methods=['GET', 'POST'])
-# @login_required
-# def testing():
-#     max_form = MaxForm()
-#     notes = NoteForm(notes=current_user.notes)
-#     if max_form.submit.data and max_form.validate_on_submit():
-#         if max_form.exercise.data == 'squat':
-#             print(max_form.new_max.data)
-#             current_user.squat_max = max_form.new_max.data
-#             flash(f'Squat max updated!')
-#         elif max_form.exercise.data == 'deadlift':
-#             current_user.deadlift_max = max_form.new_max.data
-#             flash(f'Deadlift max updated!')
-#         elif max_form.exercise.data == 'bench':
-#             current_user.bench_max = max_form.new_max.data
-#             flash(f'Bench max updated!')
-#         elif max_form.exercise.data == 'overhead':
-#             current_user.overhead_max = max_form.new_max.data
-#             flash(f'Overhead max updated!')
-#         db.session.commit()
-#         return redirect((url_for('testing')))
-#     elif notes.validate_on_submit():
-#         current_user.notes = strip_invalid_html(notes.data['notes'])
-#         flash(f'Noted!')
-#         db.session.commit()
-#         return redirect((url_for('testing', id='notetab')))
-#     return render_template('testing.html', max_form=max_form, notes=notes)
-
-
 @app.route('/my_page', methods=['GET', 'POST'])
 @login_required
 def my_page():
