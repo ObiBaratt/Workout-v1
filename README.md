@@ -1,4 +1,4 @@
-Currently LIVE at: https://workout-web.herokuapp.com/ until November 28th.
+Currently not live.
 
 # History
 Workout Web is an attempt to create the workout tracking / program generating app I always wanted. I realized while doing this project that Full Stack Python was NOT the path forward, and that I needed to learn a full JavaScript stack in order to build the app I actually want. Additionally the ideal was always a mobile app.
