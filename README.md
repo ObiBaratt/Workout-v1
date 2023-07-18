@@ -1,9 +1,12 @@
 # Running the Repo
 1. Clone it, cd into the repo
-2. run ```docker build -t workout-web .```
-3. Find the Docker Image Id by running ```docker images```
-4. Run ```docker run -p 5000:5000 workout-web```
+2. Run: ```docker build -t workout-web .```
+3. Find the Docker Image Id by running: ```docker images```
+4. Run: ```docker run -p 5000:5000 workout-web```
 5. Go to localhost:5000 in a browser
+
+# Current Status
+Rebuilding as a React-Native app! Check it out [Here](https://github.com/ObiBaratt/rn-workout/tree/main)
 
 # History
 Workout Web is an attempt to create the workout tracking / program generating app I always wanted. I realized while doing this project that Full Stack Python was NOT the path forward, and that I needed to learn a full JavaScript stack in order to build the app I actually want. Additionally the ideal was always a mobile app.
